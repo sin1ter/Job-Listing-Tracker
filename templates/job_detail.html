@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Job Detail{% endblock %}
+
+{% block content %}
+<br>
+<div class="container d-flex justify-content-center align-items-center min-vh-10">
+    <div class="text-center">
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+                <h2>Job Details</h2>
+                <p><strong>Company Name:</strong> {{ job.company_name }}</p>
+                <p><strong>Job Position:</strong> {{ job.job_position }}</p>
+                <p><strong>Requirements:</strong> {{ job.requirements }}</p>
+                <p><strong>Job Link:</strong> <a href="{{ job.job_link }}">{{ job.job_link }}</a></p>
+                <p><strong>Apply Date:</strong> {{ job.apply_date }}</p>
+
+                <h3>Recruiter Details</h3>
+                <p><strong>Name:</strong> {{ recruiter.recruiters_name }}</p>
+                <p><strong>Email:</strong> {{ recruiter.recruiters_email }}</p>
+
+                <a href = "{% url 'job_update' slug=job.slug %}" > 
+                    <button class="btn btn-primary"> Update </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

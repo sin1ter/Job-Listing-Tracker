@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}We can do Anything{% endblock %}
+
+{% block content %}
+
+<style>
+  
+  .chart-container {
+    width: 100%; 
+    margin: 0 auto; 
+  }
+
+  .card {
+    border-radius: 0.5rem; 
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); 
+    margin-bottom: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 1.25rem; 
+  }
+
+  .card-text {
+    font-size: 1rem; 
+  }
+
+  .btn-primary {
+    background-color: #007bff; 
+    border-color: #007bff;
+  }
+
+  .btn-secondary {
+    background-color: #6c757d; 
+    border-color: #6c757d;
+  }
+
+  .mt-4 {
+    margin-top: 1.5rem; 
+  }
+
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-card {
+    width: 100%; 
+    max-width: 800px; 
+    margin: 0 auto; 
+  }
+
+  .chart-column {
+    padding: 0 1rem;
+  }
+</style>
+
+<br><br><br>
+<div class="container-lg">
+  <div class="row">
+    {% if user.is_authenticated %}
+    <!-- Welcome Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <h5 class="card-title">Welcome {{ user.username }}!</h5>
+          <p class="card-text">You have {{ user.profile.balance }} coins!</p>
+          <a href="{% url 'profile' %}" class="btn btn-primary">View Profile</a>
+          <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Card -->
+    <div class="col-md-6 mb-4">
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <h5 class="card-title">Job Status</h5>
+          <h5 class="card-title"> Applied <strong> {{  all_jobs  }} </strong> </h5>
+          <p class="card-text">Accepted <strong> {{  accepted  }} </strong> </p>
+          <p class="card-text">Ghosted <strong> {{  ghosted  }} </strong> </p>
+          <p class="card-text">Rejected <strong> {{  rejected  }} </strong> </p>
+          <p class="card-text">Pending <strong> {{  pending  }} </strong> </p>
+          <p class="card-text">Replied <strong> {{  replied  }} </strong> </p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Charts Card -->
+  <div class="card chart-card">
+    <div class="card-body">
+      <h2 class="text-center mb-4">Job Status Charts</h2>
+      <div class="row">
+        <!-- Pie Chart Column -->
+        <div class="col-md-6 chart-column">
+          <canvas id="statusChart" width="400" height="200"></canvas>
+        </div>
+        <!-- Bar Chart Column -->
+        <div class="col-md-6 chart-column">
+          <canvas id="statusBarChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Pie Chart
+    var ctxPie = document.getElementById('statusChart').getContext('2d');
+    var statusChart = new Chart(ctxPie, {
+        type: 'doughnut',
+        data: {
+            labels: {{ statuses|safe }},
+            datasets: [{
+                label: 'Job Status Counts',
+                data: {{ counts|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', 
+                    'rgba(255, 159, 64, 0.2)', 
+                    'rgba(75, 192, 192, 0.2)', 
+                    'rgba(153, 102, 255, 0.2)', 
+                    'rgba(201, 203, 207, 0.2)'  
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)', 
+                    'rgba(255, 159, 64, 1)', 
+                    'rgba(75, 192, 192, 1)', 
+                    'rgba(153, 102, 255, 1)', 
+                    'rgba(201, 203, 207, 1)'  
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Bar Chart
+    var ctxBar = document.getElementById('statusBarChart').getContext('2d');
+    var statusBarChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: {{ statuses|safe }},
+            datasets: [{
+                label: 'Job Status Counts',
+                data: {{ counts|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)', 
+                    'rgba(255, 159, 64, 0.2)', 
+                    'rgba(75, 192, 192, 0.2)', 
+                    'rgba(153, 102, 255, 0.2)', 
+                    'rgba(201, 203, 207, 0.2)'  
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)', 
+                    'rgba(255, 159, 64, 1)', 
+                    'rgba(75, 192, 192, 1)', 
+                    'rgba(153, 102, 255, 1)', 
+                    'rgba(201, 203, 207, 1)'  
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true
+                },
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  });
+</script>
+{% endblock %}

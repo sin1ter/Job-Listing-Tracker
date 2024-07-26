@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<div class="container d-flex justify-content-center align-items-center min-vh-10">
+    <div class="text-center">
+        <div class="card" style="width: 25rem;">
+            <div class="card-body">
+
+                <h3>Recruiter Details</h3>
+                <p><strong>Name:</strong> {{ recruiter.recruiters_name }}</p>
+                <p><strong>Email:</strong> {{ recruiter.recruiters_email }}</p>
+                
+                <a href = "{% url 'update_recruiter' slug=object.slug %}"<button class="btn btn-primary"> Update </button> </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

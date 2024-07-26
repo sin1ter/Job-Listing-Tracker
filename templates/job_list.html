@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<style>
+.dt-button {
+    color: #fff !important;
+    background-color: #007bff !important; 
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.dt-button:hover {
+    background-color: #0056b3 !important; 
+}
+</style>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+
+<br>
+<div class="container-xl">
+    <div class="text-center">
+        <a href="{% url 'job_create' %}">
+            <button class="btn btn-primary">Create Job Listing</button>
+        </a>
+        <a href="{% url 'create_recruiter' %}">
+            <button class="btn btn-primary">Create Recruiter</button>
+        </a>
+        <a href="{% url 'recruiter_list' %}">
+            <button class="btn btn-primary">Recruiter List</button>
+        </a>
+        <br><br>
+        <table id="job_table" class="table table-light">
+            <thead>
+                <tr>
+                    <th scope="col">Serial No.</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Job Position</th>
+                    <th scope="col">Applied Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in jobs %}
+                <tr class="{% if job.status == 'Pending' %}table-warning{% elif job.status == 'Rejected' %}table-danger{% elif job.status == 'Replied' %}table-info{% elif job.status == 'Ghosted' %}table-dark{% elif job.status == 'Accepted' %}table-success{% endif %}">
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ job.company_name }}</td>
+                    <td>{{ job.job_position }}</td>
+                    <td>{{ job.apply_date }}</td>
+                    <td>
+                        <span class="{% if job.status == 'Pending' %}badge bg-warning{% elif job.status == 'Rejected' %}badge bg-danger{% elif job.status == 'Replied' %}badge bg-info{% elif job.status == 'Ghosted' %}badge bg-dark{% elif job.status == 'Accepted' %}badge bg-success{% endif %}">
+                            {{ job.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'job_detail' slug=job.slug %}" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{% url 'job_delete' slug=job.slug %}" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#job_table').DataTable({
+      dom: 'Blfrtip',
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: 'Job Listings',
+          text: 'Export to Excel'
+        },
+        {
+          extend: 'csvHtml5',
+          title: 'Job Listings',
+          text: 'Export to CSV'
+        },
+        {
+          extend: 'pdfHtml5',
+          title: 'Job Listings',
+          text: 'Export to PDF'
+        }
+        
+      ]
+    });
+  });
+</script>
+
+{% endblock %}
