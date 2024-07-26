@@ -8,7 +8,7 @@
 
 > Job Tracker is a web application that allows users to manage their job applications and track interactions with recruiters. Designed to help job seekers keep track of their applications.
 
-### 🏠 [Homepage](homepage.png)
+### 🏠 [Homepage](screenshots/homepage.png)
 
 ## Screenshots
 
