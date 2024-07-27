@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ track.title }} - Details{% endblock %}
+
+{% block content %}
+
+<style>
+  /* General Styles */
+  .detail-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    margin-bottom: 2rem;
+  }
+
+  .detail-card-body {
+    padding: 2rem;
+  }
+
+  .detail-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .detail-description {
+    font-size: 1.2rem;
+    color: #333;
+  }
+
+  .back-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+  }
+
+  .back-button:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+
+  .resource-button {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 0.5rem;
+  }
+
+  .resource-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+  }
+
+  .delete-button {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 0.5rem;
+  }
+
+  .delete-button:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .container-lg {
+    margin-top: 3rem;
+  }
+
+  .resource-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .resource-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .resource-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="container-lg">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card detail-card">
+        <div class="card-body detail-card-body">
+          <h2 class="detail-title text-center">{{ track.title }}</h2>
+          <p class="detail-description">{{ track.description }}</p>
+          <h3 class="detail-title">Resources</h3>
+          {% for resource in resources %}
+            <div class="resource-link">
+              <a href="{{ resource.resources }}">{{ resource.resources }}</a>
+              <a href="{% url "delete_resource" slug=resource.slug %}"><i class="fas fa-trash-alt"></i></a>
+            </div>
+          {% endfor %}
+          <a href="{% url 'track_list' %}" class="back-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+          </a>
+
+          <a href="{% url 'create_resources' track.slug %}" class="resource-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+              <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+            Add Resource
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

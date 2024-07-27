@@ -22,6 +22,15 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return self.request.user
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        resume_url = user.resume.url if user.resume else None
+        context['resume_url'] = resume_url
+        context['is_pdf'] = resume_url.endswith('.pdf') if resume_url else False
+        context['is_pdf'] = resume_url.endswith('.doc') or resume_url.endswith('.docx') if resume_url else False
+        return context
 
 
 class EditProfileView(LoginRequiredMixin, UpdateView):

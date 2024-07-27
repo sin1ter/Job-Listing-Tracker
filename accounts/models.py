@@ -1,6 +1,10 @@
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db import models
 
+
+import os
+from .validation import validate_file_extention
+
 # Create your models here.
 
 class MyUserManager(BaseUserManager):
@@ -44,6 +48,7 @@ class CustomUserModel(AbstractBaseUser):
     date_of_birth = models.DateField()
     github = models.URLField(blank=True)
     linkedin = models.URLField(blank=True)
+    resume = models.FileField(upload_to='resume/user', validators=[validate_file_extention], max_length=100, blank=True, null=True)
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

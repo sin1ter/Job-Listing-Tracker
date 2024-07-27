@@ -37,7 +37,7 @@ class EditProfileForm(forms.ModelForm):
     
     class Meta:
         model = CustomUserModel
-        fields = ['email', 'username', 'first_name', 'last_name', 'phone', 'date_of_birth', 'github', 'linkedin']
+        fields = ['email', 'username', 'first_name', 'last_name', 'phone', 'date_of_birth', 'github', 'linkedin', 'resume']
 
         widgets = {
             'email' : forms.EmailInput(attrs={'class': 'form-control'}), 
@@ -48,10 +48,7 @@ class EditProfileForm(forms.ModelForm):
             'date_of_birth' : forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'github' : forms.URLInput(attrs={'class': 'form-control'}),
             'linkedin' : forms.URLInput(attrs={'class': 'form-control'}),
-
+            'resume': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
 
-        # def __init__(self, *args, **kwargs):
-        #     super().__init__(*args, **kwargs)
-        #     for field in self.fields.values():
-        #         field.widget.attrs.update({'class': 'form-control'})
+       

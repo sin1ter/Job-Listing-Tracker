@@ -14,6 +14,14 @@
           <p><strong>Last Name:</strong> {{ user.last_name }}</p>
           <p><strong>Phone:</strong> {{ user.phone }}</p>
           <p><strong>Date of Birth:</strong> {{ user.date_of_birth }}</p>
+          <p><strong>Resume:</strong> Download to see your <br>uploaded resume</p>
+          
+          {% if resume_url %}
+            <p><a href="{{ resume_url }}" target="_blank" class="btn btn-primary">Download Resume</a></p>
+          {% else %}
+            <p>No resume uploaded.</p>
+          {% endif %}
+
           <a href="{% url 'edit_profile' %}">
             <button class="btn btn-primary"> Edit Profie </button>
         </a>
