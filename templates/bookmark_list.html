@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Track List{% endblock %}
+{% block title %}Bookmark List{% endblock %}
 
 {% block content %}
 
@@ -95,34 +95,23 @@
 </style>
 
 <div class="container-lg">
-  <div class="row mb-4">
-    <div class="col text-center">
-      <a href="{% url 'bookmarks' %}" class="btn btn-secondary">View Bookmarks</a>
-    </div>
-  </div>
   <div class="row">
-    {% comment %} <h4 class="text-center">Bookmarks</h4> {% endcomment %}
-    {% for track in tracks %}
+    {% for bookmark in bookmarks %}
       <div class="col-md-4">
         <div class="card detail-card mb-4">
           <div class="card-body detail-card-body">
-            <h2 class="detail-title">{{ track.title }}</h2>
-            <p class="detail-description">{{ track.description }}</p>
+            <h2 class="detail-title">{{ bookmark.track.title }}</h2>
             <div class="d-flex justify-content-end">
-              <form action="{% url 'bookmark' track.slug %}" method="post">
+              <form action="{% url 'bookmark_remove' bookmark.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-bookmark">
-                  {% if track.id in user_bookmarks %}
                     <i class="fas fa-bookmark"></i>
-                  {% else %}
-                    <i class="far fa-bookmark"></i>
-                  {% endif %}
                 </button>
-              </form>
+              </form> 
             </div>
-            <a href="{% url 'keeptrackdetail' track.slug %}" class="btn btn-primary">View Details</a>
-            <a href="{% url 'delete_track' slug=track.slug %}" class="btn btn-danger">
-              <i class="fas fa-trash-alt"></i>
+            <a href="{% url 'keeptrackdetail' slug=bookmark.track.slug %}" class="btn btn-primary">View Details</a>
+            <a href="{% url 'delete_track' slug=bookmark.track.slug %}" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>
             </a>
           </div>
         </div>

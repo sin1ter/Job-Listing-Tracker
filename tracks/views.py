@@ -71,5 +71,19 @@ class BookmarkToggleView(LoginRequiredMixin, View):
         if not created:
             bookmark.delete()
 
-        return redirect('keeptrackdetail', slug=track_slug)
+        return redirect(reverse_lazy('bookmarks'))
     
+class BookmarkListView(LoginRequiredMixin, ListView):
+    model = Bookmark
+    template_name = 'bookmark_list.html'
+    context_object_name = 'bookmarks'
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
+    
+
+class BookmarkRemoveView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        bookmark = get_object_or_404(Bookmark, id=kwargs['id'], user=request.user)
+        bookmark.delete()
+        return redirect(reverse_lazy('bookmarks'))

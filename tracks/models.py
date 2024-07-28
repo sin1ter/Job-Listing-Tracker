@@ -56,7 +56,7 @@ class Bookmark(models.Model):
     user = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     created_at = models.DateField(auto_now_add=True)
-
+    
     def __str__(self):
         if self.track:
             return f"{self.user.username} bookmarked {self.track.title}"
