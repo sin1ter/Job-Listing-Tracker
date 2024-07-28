@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TrackListView, TrackDetailView, TrackCreateView, TrackUpdateView, TrackDeleteView, ResourceCreateView
+from .views import TrackListView, TrackDetailView, TrackCreateView, TrackUpdateView, TrackDeleteView, ResourceCreateView, ResourcesDeleteView
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path('detail/<slug:slug>/', TrackDetailView.as_view(), name='keeptrackdetail'),
 
     path('resource-create/<slug:slug>/', ResourceCreateView.as_view(), name='create_resources'),
+    path('resource-delete/<slug:slug>/', ResourcesDeleteView.as_view(), name='delete_resources'),
 ] 
 

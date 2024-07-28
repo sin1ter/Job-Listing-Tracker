@@ -50,4 +50,7 @@ class ResourceCreateView(CreateView):
     template_name = 'create_resource.html'
     success_url = reverse_lazy('track_list')
 
-    
+class ResourcesDeleteView(DeleteView):
+    model = Resources
+    template_name = "resources_confirm_delete.html"
+    success_url = reverse_lazy('track_list')

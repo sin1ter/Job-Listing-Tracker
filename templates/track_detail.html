@@ -111,7 +111,7 @@
           {% for resource in resources %}
             <div class="resource-link">
               <a href="{{ resource.resources }}">{{ resource.resources }}</a>
-              <a href=""><i class="fas fa-trash-alt"></i></a>
+              <a href="{% url "delete_resources" slug=resource.slug %}"><i class="fas fa-trash-alt"></i></a>
             </div>
           {% endfor %}
           <a href="{% url 'track_list' %}" class="back-button">
