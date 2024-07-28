@@ -5,3 +5,4 @@ from .models import *
 
 admin.site.register(Track)
 admin.site.register(Resources)
+admin.site.register(Bookmark)

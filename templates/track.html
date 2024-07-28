@@ -1,74 +1,92 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}We Can Do Anything{% endblock %}
+{% block title %}Track List{% endblock %}
 
 {% block content %}
 
 <style>
-  /* General styles */
-  .card {
+  /* General Styles */
+  .detail-card {
     border-radius: 0.5rem;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    margin-bottom: 1.5rem;
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .card:hover {
-    transform: scale(1.02);
+    margin-bottom: 2rem;
   }
 
-  .card-title {
-    font-size: 1.5rem;
+  .detail-card-body {
+    padding: 2rem;
+  }
+
+  .detail-title {
+    font-size: 2rem;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    margin-bottom: 1rem;
   }
 
-  .card-text {
-    font-size: 1rem;
-    color: #555;
+  .detail-description {
+    font-size: 1.2rem;
+    color: #333;
   }
 
-  .btn-primary {
+  .back-button {
     background-color: #007bff;
     border-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
   }
 
-  .btn-primary:hover {
+  .back-button:hover {
     background-color: #0056b3;
     border-color: #004085;
   }
 
-  .btn-secondary, .btn-danger {
-    margin-right: 0.5rem;
+  .resource-button {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 0.5rem;
   }
 
-  .btn-success {
-    margin-bottom: 1.5rem;
-  }
-
-  .container-lg {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+  .resource-button:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
   }
 
   .text-center {
-    margin-bottom: 2rem;
+    text-align: center;
   }
 
-  .card-body {
-    padding: 1.5rem;
+  .container-lg {
+    margin-top: 3rem;
   }
 
-  .card-img-top {
-    border-bottom: 1px solid #e3e3e3;
-    padding-bottom: 1rem;
+  .resource-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .resource-link a {
+    color: #007bff;
+    text-decoration: none;
+  }
+
+  .resource-link a:hover {
+    text-decoration: underline;
   }
 
   .btn-bookmark {
+    background: none;
+    border: none;
     color: #007bff;
-    font-size: 1.25rem;
   }
 
   .btn-bookmark:hover {
@@ -78,52 +96,32 @@
 
 <div class="container-lg">
   <div class="row">
-    <div class="col-12 text-center mb-4">
-      <a href="{% url 'create_track' %}" class="btn btn-success">
-        <i class="fas fa-plus"></i> Add New Track
-      </a>
-    </div>
-    <div class="col-12">
-      <h2 class="text-center mb-4">Keep Track of Things You Are Learning</h2>
-      <div class="row">
-        {% if track %}
-          {% for t in track %}
-            <div class="col-md-4 mb-2">
-              <a href="{% url 'keeptrackdetail' t.slug %}" class="text-decoration-none">
-                <div class="card">
-                  <!-- Optional: Add an image if you have one for each track -->
-                  <!-- <img src="{% static 'path/to/image.jpg' %}" class="card-img-top" alt="{{ t.title }}"> -->
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                      <h5 class="card-title mb-0">{{ t.title }}</h5>
-                      
-                      <a href="" class="btn btn-bookmark">
-                        <i class="fas fa-bookmark"></i>
-                      </a>
-
-                    </div>
-                    <p class="card-text">{{ t.startdate }}</p>
-                    <a href="{% url 'keeptrackdetail' t.slug %}" class="btn btn-primary">View Details</a>
-                    <a href="{% url 'update_track' slug=t.slug %}" class="btn btn-secondary">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
-                      </svg>
-                    </a>
-                    <a href="{% url 'delete_track' slug=t.slug %}" class="btn btn-danger">
-                      <i class="fas fa-trash-alt"></i>
-                    </a>
-                  </div>
-                </div>
-              </a>
+    {% for track in tracks %}
+      <div class="col-md-4">
+        <div class="card detail-card mb-4">
+          <div class="card-body detail-card-body">
+            <h2 class="detail-title">{{ track.title }}</h2>
+            <p class="detail-description">{{ track.description }}</p>
+            <div class="d-flex justify-content-end">
+              <form action="{% url 'bookmark' track.slug %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-bookmark">
+                  {% if track.id in user_bookmarks %}
+                    <i class="fas fa-bookmark"></i>
+                  {% else %}
+                    <i class="far fa-bookmark"></i>
+                  {% endif %}
+                </button>
+              </form>
             </div>
-          {% endfor %}
-        {% else %}
-          <div class="col-12">
-            <p class="text-center">No tracks available.</p>
+            <a href="{% url 'keeptrackdetail' track.slug %}" class="btn btn-primary">View Details</a>
+            <a href="{% url 'delete_track' slug=track.slug %}" class="btn btn-danger">
+              <i class="fas fa-trash-alt"></i>
+          </a>
           </div>
-        {% endif %}
+        </div>
       </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
 

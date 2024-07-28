@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TrackListView, TrackDetailView, TrackCreateView, TrackUpdateView, TrackDeleteView, ResourceCreateView, ResourcesDeleteView
+from .views import TrackListView, TrackDetailView, TrackCreateView, TrackUpdateView, TrackDeleteView, ResourceCreateView, ResourcesDeleteView, BookmarkToggleView
 
 
 urlpatterns = [
@@ -11,5 +11,7 @@ urlpatterns = [
 
     path('resource-create/<slug:slug>/', ResourceCreateView.as_view(), name='create_resources'),
     path('resource-delete/<slug:slug>/', ResourcesDeleteView.as_view(), name='delete_resources'),
+
+    path('track-bookmark/<slug:slug>/', BookmarkToggleView.as_view(), name='bookmark'),
 ] 
 

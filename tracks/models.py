@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
+
+from accounts.models import CustomUserModel
 # Create your models here.
 
 class Track(models.Model):
@@ -49,3 +51,14 @@ class Resources(models.Model):
             unique_slug = f"{slug}-{num}"
             num += 1
         return unique_slug
+
+class Bookmark(models.Model):
+    user = models.ForeignKey(CustomUserModel, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        if self.track:
+            return f"{self.user.username} bookmarked {self.track.title}"
+        else:
+            return f"{self.user.username} bookmark"
